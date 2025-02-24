@@ -4,7 +4,7 @@
 
 export CUDA_DEVICE_MAX_CONNECTIONS=1
 
-GPUS_PER_NODE=8
+GPUS_PER_NODE=1
 # Change for multinode config
 MASTER_ADDR=localhost
 MASTER_PORT=6000
@@ -26,19 +26,19 @@ DISTRIBUTED_ARGS=(
 )
 
 GPT_MODEL_ARGS=(
-    --num-layers 96 
-    --hidden-size 12288 
-    --num-attention-heads 96 
-    --seq-length 2048 
+    --num-layers 12
+    --hidden-size 512
+    --num-attention-heads 8
+    --seq-length 1024
     --max-position-embeddings 2048 
     --attention-backend auto # Can use (flash/fused/unfused/local)
 )
 
 TRAINING_ARGS=(
     --micro-batch-size 1 
-    --global-batch-size 1536 
-    --rampup-batch-size 16 16 5859375 
-    --train-iters 500000 
+    --global-batch-size 1024 
+    #--rampup-batch-size 16 16 5859375 
+    --train-iters 10
     --weight-decay 0.1 
     --adam-beta1 0.9 
     --adam-beta2 0.95 
@@ -53,8 +53,8 @@ TRAINING_ARGS=(
 )
 
 MODEL_PARALLEL_ARGS=(
-	--tensor-model-parallel-size 8 
-	--pipeline-model-parallel-size 16 
+    --tensor-model-parallel-size 1 
+    --pipeline-model-parallel-size 1
 )
 
 DATA_ARGS=(
@@ -70,7 +70,7 @@ EVAL_AND_LOGGING_ARGS=(
     --eval-interval 1000 
     --save $CHECKPOINT_PATH 
     --load $CHECKPOINT_PATH 
-    --eval-iters 10
+    --eval-iters 2
     --tensorboard-dir $TENSORBOARD_LOGS_PATH 
 )
 
