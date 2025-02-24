@@ -8,8 +8,8 @@ DATA_PATH="/nasmnt/tmp/my-gpt2_text_document"
 docker run \
   -it \
   --gpus=all \
-  --ipc=host \
-  -p 6000:6000 \
+  --network=host \
+  -p 29500:29500 \
   --workdir /root/megatron-lm_allendou/ \
   -v /nasmnt/:/nasmnt/ \
   -v /root/megatron-lm_allendou/:/root/megatron-lm_allendou/ \
