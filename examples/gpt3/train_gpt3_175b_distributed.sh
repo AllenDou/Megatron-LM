@@ -36,7 +36,7 @@ GPT_MODEL_ARGS=(
 
 TRAINING_ARGS=(
     --micro-batch-size 1 
-    --global-batch-size 1024 
+    --global-batch-size 512
     #--rampup-batch-size 16 16 5859375 
     --train-iters 10
     --weight-decay 0.1 
