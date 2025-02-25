@@ -73,9 +73,11 @@ EVAL_AND_LOGGING_ARGS=(
     --load $CHECKPOINT_PATH 
     --eval-iters 2
     --tensorboard-dir $TENSORBOARD_LOGS_PATH 
+    #--ckpt-convert-format "torch_dist"
+    #--ckpt-convert-save "/nasmnt/ckpt_torch_dist"
 )
-
-torchrun ${DISTRIBUTED_ARGS[@]} pretrain_gpt.py --dist-ckpt-strictness log_all \
+# --ckpt-format torch
+torchrun ${DISTRIBUTED_ARGS[@]} pretrain_gpt.py --dist-ckpt-strictness log_all --ckpt-format torch \
     ${GPT_MODEL_ARGS[@]} \
     ${TRAINING_ARGS[@]} \
     ${MODEL_PARALLEL_ARGS[@]} \
