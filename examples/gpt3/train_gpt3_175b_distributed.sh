@@ -8,7 +8,7 @@ GPUS_PER_NODE=1
 # Change for multinode config
 MASTER_ADDR=192.168.0.241
 MASTER_PORT=29500
-NUM_NODES=2
+NUM_NODES=1
 NODE_RANK=0
 WORLD_SIZE=$(($GPUS_PER_NODE*$NUM_NODES))
 
@@ -37,9 +37,9 @@ GPT_MODEL_ARGS=(
 
 TRAINING_ARGS=(
     --micro-batch-size 1 
-    --global-batch-size 512
+    --global-batch-size 64
     #--rampup-batch-size 16 16 5859375 
-    --train-iters 10
+    --train-iters 100
     --weight-decay 0.1 
     --adam-beta1 0.9 
     --adam-beta2 0.95 
@@ -67,7 +67,7 @@ DATA_ARGS=(
 
 EVAL_AND_LOGGING_ARGS=(
     --log-interval 100
-    --save-interval 10000 
+    --save-interval 5
     --eval-interval 1000 
     --save $CHECKPOINT_PATH 
     --load $CHECKPOINT_PATH 
@@ -75,7 +75,7 @@ EVAL_AND_LOGGING_ARGS=(
     --tensorboard-dir $TENSORBOARD_LOGS_PATH 
 )
 
-torchrun ${DISTRIBUTED_ARGS[@]} pretrain_gpt.py \
+torchrun ${DISTRIBUTED_ARGS[@]} pretrain_gpt.py --dist-ckpt-strictness log_all \
     ${GPT_MODEL_ARGS[@]} \
     ${TRAINING_ARGS[@]} \
     ${MODEL_PARALLEL_ARGS[@]} \
